@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!-- Based on BetterMinimal by Sean LeBlanc -->
+<html lang="en-us">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>{{{ PRODUCT_NAME }}}</title>
+	<style>
+		html,
+		body {
+			background: {{{ BACKGROUND || '#000' }}};
+			width: 100%;
+			height: 100%;
+			overflow: visible;
+			padding: 0;
+			margin: 0;
+		}
+
+		div#gameContainer {
+			background: transparent !important;
+			position: absolute;
+		}
+
+		div#gameContainer canvas {
+			position: absolute;
+		}
+
+		div#gameContainer canvas[data-pixel-art="true"] {
+			position: absolute;
+			image-rendering: optimizeSpeed;
+			image-rendering: -webkit-crisp-edges;
+			image-rendering: -moz-crisp-edges;
+			image-rendering: -o-crisp-edges;
+			image-rendering: crisp-edges;
+			image-rendering: -webkit-optimize-contrast;
+			image-rendering: optimize-contrast;
+			image-rendering: pixelated;
+			-ms-interpolation-mode: nearest-neighbor;
+		}
+
+		div#loadingBar {
+			display: block;
+			position: absolute;
+			left: 20vmin;
+			right: 20vmin;
+			top: 45vh;
+			bottom: 45vh;
+			/* background-color: #000; */
+			border: 1vmin solid {{{ LOADING_BAR_BORDER_COLOR || '#bbb' }}};
+			border-radius: {{{ LOADING_BAR_BORDER_RADIUS || '2vh' }}};
+			overflow: hidden;
+
+			/* for visibility animation */
+			visibility: visible;
+			opacity: 1;
+			transition: opacity 2s linear;
+		}
+
+		div#loadingBar.hidden {
+			visibility: hidden;
+			opacity: 0;
+			transition: visibility 0s 1s, opacity 1s linear;
+		}
+
+		div#loadingBarProgress {
+			position: absolute;
+			left: 0vmin;
+			top: 0;
+			bottom: 0;
+			background: {{{ LOADING_BAR_PROGRESS_BACKGROUND || '#ffbb22bf' }}};
+			width: 0%;
+			transition: width 1s cubic-bezier(0.65, 0, 0.35, 1);
+		}
+	</style>
+</head>
+
+<body>
+	<div id="loadingBar">
+		<div id="loadingBarProgress"></div>
+	</div>
+	<div id="gameContainer">
+		<canvas id="unity-canvas" data-pixel-art="{{{ OPTIMIZE_FOR_PIXEL_ART }}}"></canvas>
+		<script src="Build/{{{ LOADER_FILENAME }}}"></script>
+		<script>
+			const canvasElement = document.querySelector("#unity-canvas");
+			const loadingBarElement = document.querySelector("#loadingBar");
+			const loadingBarProgressElement = document.querySelector("#loadingBarProgress");
+
+			function onProgress(progress) {
+				loadingBarProgressElement.style.width = `${progress*100}%`;
+			}
+
+			createUnityInstance(canvasElement, {
+				dataUrl: "Build/{{{ DATA_FILENAME }}}",
+				frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}",
+				codeUrl: "Build/{{{ CODE_FILENAME }}}",
+#if MEMORY_FILENAME
+				memoryUrl: "Build/{{{ MEMORY_FILENAME }}}",
+#endif
+#if SYMBOLS_FILENAME
+				symbolsUrl: "Build/{{{ SYMBOLS_FILENAME }}}",
+#endif
+				streamingAssetsUrl: "StreamingAssets",
+				companyName: "{{{ COMPANY_NAME }}}",
+				productName: "{{{ PRODUCT_NAME }}}",
+				productVersion: "{{{ PRODUCT_VERSION }}}",
+			}, onProgress).then(function (instance) {
+				window.unityInstance = instance;
+				loadingBarElement.classList.add("hidden");
+				var canvas = instance.Module.canvas;
+				var container = canvas.parentElement;
+				function onResize() {
+					var w;
+					var h;
+
+					if (scaleToFit) {
+						w = window.innerWidth;
+						h = window.innerHeight;
+
+						if (keepAspectRatio) {
+							const r = {{{ HEIGHT }}} / {{{ WIDTH }}};
+
+							if (w * r > window.innerHeight) {
+								w = Math.min(w, Math.ceil(h / r));
+							}
+							h = Math.floor(w * r);
+						}
+					} else {
+						w = {{{ WIDTH }}};
+						h = {{{ HEIGHT }}};
+					}
+
+					container.style.width = canvas.style.width = w + "px";
+					container.style.height = canvas.style.height = h + "px";
+					container.style.top = Math.floor((window.innerHeight - h) / 2) + "px";
+					container.style.left = Math.floor((window.innerWidth - w) / 2) + "px";
+				}
+
+				var scaleToFit;
+				try {
+					scaleToFit = !!JSON.parse("{{{ SCALE_TO_FIT }}}");
+				} catch (e) {
+					scaleToFit = true;
+				}
+
+				var keepAspectRatio;
+				try {
+					keepAspectRatio = !!JSON.parse("{{{ KEEP_ASPECT_RATIO }}}");
+				} catch (e) {
+					keepAspectRatio = false;
+				}
+
+				window.addEventListener('resize', onResize);
+				onResize();
+			});
+		</script>
+	</div>
+</body>
+
+</html>

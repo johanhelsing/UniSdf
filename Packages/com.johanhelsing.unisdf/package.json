@@ -1,0 +1,19 @@
+{
+  "name": "com.johanhelsing.unisdf",
+  "version": "0.1.0",
+  "displayName": "UniSdf",
+  "description": "Sdf toolkit for shaders, including shader graph",
+  "unity": "2020.3",
+  "keywords": [
+    "sdf", "shader graph", "2d"
+  ],
+  "author": {
+    "name": "Johan Klokkhammer Helsing",
+    "email": "johanhelsing@gmail.com",
+    "url": "https://github.com/johanhelsing/UniSdf"
+  },
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "2.0.0"
+  },
+  "type": "library"
+}
