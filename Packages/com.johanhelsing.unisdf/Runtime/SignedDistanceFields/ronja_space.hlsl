@@ -36,4 +36,11 @@ void ronja_radial_cells_mirrored_float(float2 position, float cells, out float2 
     out_position = ronja_radial_cells(position, cells, index, true);
 }
 
+float2 ronja_wobble(float2 position, float2 frequency, float2 amount){
+    float2 wobble = sin(position.yx * frequency) * amount;
+    return position + wobble;
+}
+
+DECLARE_2F2F2F_2F(ronja_wobble);
+
 #endif
