@@ -61,6 +61,18 @@ float pow5(float x)
         Out = name(x, y); \
     }
 
+#define DECLARE_1F4F4F_1F(name) \
+    void name##_float(float x, float4 y, float4 z, out float Out) \
+    { \
+        Out = name(x, y, z); \
+    }
+
+#define DECLARE_1F4F4F1F1F1F1F_4F(name) \
+    void name##_float(float x, float4 y, float4 z, float w, float a, float b, float c, out float4 Out) \
+    { \
+        Out = name(x, y, z, w, a, b, c); \
+    }
+
 #define DECLARE_1F1F1F_1F(name) \
     void name##_float(float x, float y, float z, out float Out) \
     { \
