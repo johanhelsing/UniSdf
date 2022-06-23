@@ -127,6 +127,12 @@ float pow5(float x)
         Out = name(x, y, z); \
     }
 
+#define DECLARE_2F2F4F_1F(name) \
+    void name##_float(float2 x, float2 y, float4 z, out float1 Out) \
+    { \
+        Out = name(x, y, z); \
+    }
+
 #define DECLARE_2F2F2F1F1F_1F(name) \
     void name##_float(float2 a, float2 b, float2 c, float d, float e, out float Out) \
     { \

@@ -4,6 +4,17 @@
 #include "../common.hlsl"
 
 // https://www.iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
+float iq_sd_rounded_box(float2 p, float2 b, float4 r)
+{
+    r.xy = (p.x > 0.0) ? r.xy : r.zw;
+    r.x  = (p.y > 0.0) ? r.x : r.y;
+    float2 q = abs(p) - b + r.x;
+    return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - r.x;
+}
+
+DECLARE_2F2F4F_1F(iq_sd_rounded_box);
+
+// https://www.iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
 // Has huge issues with instability when close to a circle or very eccentric
 float iq_sd_ellipse_analytical(float2 p, float2 ab)
 {
