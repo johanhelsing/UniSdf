@@ -160,7 +160,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.5309644, g: 0.56078434, b: 0.42745098, a: 0}
+  m_BackGroundColor: {r: 0.30588236, g: 0.1546189, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -294,7 +294,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: aa7a78aa1563bbbd499c6b589304106f, type: 2}
+  - {fileID: 2100000, guid: 674a7ba689a5ab8638962b7bc24734a8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

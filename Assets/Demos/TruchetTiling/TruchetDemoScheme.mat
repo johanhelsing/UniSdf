@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TruchetDemoCircle
-  m_Shader: {fileID: -6465566751694194690, guid: 7d24dc802b9a3de80a177408039af274,
+  m_Name: TruchetDemoScheme
+  m_Shader: {fileID: -6465566751694194690, guid: 092edb4748e7d468fa7558e522aedc22,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -39,7 +39,7 @@ Material:
     - _QueueOffset: 0
     - _Scale: 14.2
     m_Colors:
-    - _Fill: {r: 0.21895963, g: 0.29799995, b: 0.21336794, a: 0.972549}
+    - _Fill: {r: 0.54509807, g: 0.36327583, b: 0.17647058, a: 0.972549}
     - _Outline: {r: 0.21489029, g: 0.21960784, b: 0.019607848, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &1132578423206127389
