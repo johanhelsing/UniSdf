@@ -4,6 +4,15 @@
 #include "../common.hlsl"
 
 // https://www.iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
+float iq_sd_box(float2 p, float2 b)
+{
+    float2 d = abs(p) - b;
+    return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0);
+}
+
+DECLARE_2F2F_1F(iq_sd_box);
+
+// https://www.iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
 float iq_sd_rounded_box(float2 p, float2 b, float4 r)
 {
     r.xy = (p.x > 0.0) ? r.xy : r.zw;
