@@ -104,6 +104,25 @@ float iq_sd_arc(float2 p, float2 sin_cos_orientation, float2 sin_cos_aperture, f
     return sqrt(dot(p, p) + radius_a * radius_a - 2.0 * radius_a * k) - radius_b;
 }
 
+DECLARE_2F2F2F1F1F_1F(iq_sd_arc);
+
+// https://www.iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm
+float iq_sd_horseshoe(float2 p, float2 c, float r, float2 w)
+{
+    p.x = abs(p.x);
+    float l = length(p);
+    const float2x2 m = {-c.x, c.y, c.y, c.x};
+    p = mul(m, p);
+    p = float2(
+        p.y > 0.0 || p.x > 0.0 ? p.x : l * sign(-c.x),
+        p.x > 0.0 ? p.y : l
+    );
+    p = float2(p.x, abs(p.y - r)) - w;
+    return length(max(p, 0.0)) + min(0.0, max(p.x, p.y));
+}
+
+DECLARE_2F2F1F2F_1F(iq_sd_horseshoe);
+
 float iq_sd_rounded_cross(float2 p, float h)
 {
     float k = 0.5 * (h + 1.0 / h); // k should be const at modeling time
@@ -128,8 +147,6 @@ float iq_sd_trapezoid(float2 p, float r1, float r2, float he)
 }
 
 DECLARE_2F1F1F1F_1F(iq_sd_trapezoid);
-
-DECLARE_2F2F2F1F1F_1F(iq_sd_arc);
 
 float iq_sd_hexagon(float2 p, float r)
 {
