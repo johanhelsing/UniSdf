@@ -494,7 +494,7 @@
     "m_Group": {
         "m_Id": ""
     },
-    "m_Name": "iq_op_rep_lim (Custom Function)",
+    "m_Name": "iq_rep_lim (Custom Function)",
     "m_DrawState": {
         "m_Expanded": true,
         "m_Position": {
@@ -527,7 +527,7 @@
         "m_SerializableColors": []
     },
     "m_SourceType": 0,
-    "m_FunctionName": "iq_op_rep_lim",
+    "m_FunctionName": "iq_rep_lim",
     "m_FunctionSource": "40b90145808a6ba4195069f342b03628",
     "m_FunctionBody": "Enter function body here..."
 }
