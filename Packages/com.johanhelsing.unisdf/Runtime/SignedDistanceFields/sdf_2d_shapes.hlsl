@@ -168,6 +168,46 @@ float iq_sd_hexagon(float2 p, float r)
 
 DECLARE_2F1F_1F(iq_sd_hexagon);
 
+float iq_sd_bezier(float2 p, float2 start, float2 control, float2 end)
+{
+    float2 a = control - start;
+    float2 b = start - 2.0 * control + end;
+    float2 c = a * 2.0;
+    float2 d = start - p;
+    float kk = 1.0 / dot(b, b);
+    float kx = kk * dot(a, b);
+    float ky = kk * (2.0 * dot(a, a) + dot(d, b)) / 3.0;
+    float kz = kk * dot(d, a);
+    float res = 0.0;
+    float pk = ky - kx * kx;
+    float p3 = pk * pk * pk;
+    float q = kx * (2.0 * kx * kx - 3.0 * ky) + kz;
+    float h = q * q + 4.0 * p3;
+    if (h >= 0.0)
+    {
+        h = sqrt(h);
+        float2 x = (float2(h, -h) - q) / 2.0;
+        float2 uv = sign(x) * pow(abs(x), 1.0 / 3.0);
+        float t = clamp(uv.x + uv.y - kx, 0.0, 1.0);
+        res = dot2(d + (c + b * t) * t);
+    }
+    else
+    {
+        float z = sqrt(-pk);
+        float v = acos(q / (pk * z * 2.0)) / 3.0;
+        float m = cos(v);
+        float n = sin(v) * 1.732050808;
+        float3 t = clamp(float3(m + m, -n - m, n - m) * z - kx, 0.0, 1.0);
+        res = min(dot2(d + (c + b * t.x) * t.x),
+                  dot2(d + (c + b * t.y) * t.y));
+        // the third root cannot be the closest
+        // res = min(res,dot2(d+(c+b*t.z)*t.z));
+    }
+    return sqrt(res);
+}
+
+DECLARE_2F2F2F2F_1F(iq_sd_bezier);
+
 // Estimated distance to an iso curve defined by f(p) = 0
 // x is f(p), while grad_x is ∇f(p)
 // Derived from: https://www.iquilezles.org/www/articles/distance/distance.htm
